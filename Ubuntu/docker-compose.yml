@@ -24,8 +24,6 @@ services:
       - "3000:3000"
     links:
       - influxdb
-    volumes:
-      - ./graf/:/var/lib/grafana
     restart: always
 
   telegraf:
