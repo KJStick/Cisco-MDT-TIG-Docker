@@ -24,7 +24,7 @@ services:
       - "3000:3000"
     links:
       - influxdb
-    restart: always
+    restart: on-failure
 
   telegraf:
     container_name: telegraf
