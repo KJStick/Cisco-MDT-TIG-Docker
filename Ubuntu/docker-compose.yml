@@ -24,7 +24,9 @@ services:
       - "3000:3000"
     links:
       - influxdb
-    restart: on-failure
+    volumes:
+      - ./graf/:/var/lib/grafana
+    restart: always
 
   telegraf:
     container_name: telegraf
