@@ -14,7 +14,7 @@ services:
       - DOCKER_INFLUXDB_INIT_BUCKET=CBTNUGGETS-DEMO-BUCKET
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=veryverysecuretoken
     volumes:
-      - influxdb_data:/var/lib/influxdb
+      - ./influxdb_data:/var/lib/influxdb
     restart: always
 
   grafana:
@@ -30,7 +30,7 @@ services:
 
   telegraf:
     container_name: telegraf
-    image: telegraf:latest 
+    image: telegraf:latest
     ports:
       - "57000:57000"
     environment:
@@ -41,7 +41,6 @@ services:
       - ./conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock
     restart: always
-    
+
 volumes:
   grafana_data:
-  influxdb_data:
