@@ -14,7 +14,7 @@ services:
       - DOCKER_INFLUXDB_INIT_BUCKET=CBTNUGGETS-DEMO-BUCKET
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=veryverysecuretoken
     volumes:
-      - ./vols/:/var/lib/influxdb
+      - influxdb_data:/var/lib/influxdb
     restart: always
 
   grafana:
@@ -24,6 +24,8 @@ services:
       - "3000:3000"
     links:
       - influxdb
+    volumes:
+      - grafana_data:/var/lib/grafana
     restart: always
 
   telegraf:
@@ -39,3 +41,7 @@ services:
       - ./conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock
     restart: always
+    
+volumes:
+  grafana_data:
+  influxdb_data:
