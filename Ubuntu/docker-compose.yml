@@ -14,7 +14,7 @@ services:
       - DOCKER_INFLUXDB_INIT_BUCKET=CBTNUGGETS-DEMO-BUCKET
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=veryverysecuretoken
     volumes:
-      - ./influxdb_data:/var/lib/influxdb
+      - ./vols/:/var/lib/influxdb2
     restart: always
 
   grafana:
