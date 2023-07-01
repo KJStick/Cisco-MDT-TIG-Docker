@@ -8,13 +8,13 @@ services:
       - "8086:8086"
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=admin
-      - DOCKER_INFLUXDB_INIT_PASSWORD=password123
-      - DOCKER_INFLUXDB_INIT_ORG=CBTNUGGETS-DEMO
-      - DOCKER_INFLUXDB_INIT_BUCKET=CBTNUGGETS-DEMO-BUCKET
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=veryverysecuretoken
+      - DOCKER_INFLUXDB_INIT_USERNAME={{ username }}
+      - DOCKER_INFLUXDB_INIT_PASSWORD={{ password }}
+      - DOCKER_INFLUXDB_INIT_ORG={{ influxdb_org }}
+      - DOCKER_INFLUXDB_INIT_BUCKET={{ influxdb_bucket }}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN={{ influxdb_token }}
     volumes:
-      - ./vols/:/var/lib/influxdb
+      - ./vols/:/var/lib/influxdb2
     restart: always
 
   grafana:
@@ -24,18 +24,23 @@ services:
       - "3000:3000"
     links:
       - influxdb
+    volumes:
+      - grafana_data:/var/lib/grafana
     restart: always
 
   telegraf:
     container_name: telegraf
-    image: telegraf:latest 
+    image: telegraf:latest
     ports:
-      - "57000:57000"   
+      - "57000:57000"
     environment:
-      - INFLUXDB_TOKEN=veryverysecuretoken
+      - INFLUXDB_TOKEN={{ influxdb_token }}
     links:
       - influxdb
     volumes:
       - ./conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock
     restart: always
+
+volumes:
+  grafana_data:
